@@ -15,8 +15,11 @@ using TeamFrontEndByBlazorServer.Data;
 
 namespace TeamFrontEndByBlazorServer
 {
+    
+    
     public class Startup
     {
+        public static string baseUrl { get; set; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -33,9 +36,10 @@ namespace TeamFrontEndByBlazorServer
             /*services.AddScoped(
                 sp => new HttpClient {BaseAddress = new Uri("http://47.94.89.77:31905")});*/
             services.AddScoped(
-                sp => new HttpClient {BaseAddress = new Uri("http://localhost:31905")});
+                sp => new HttpClient {BaseAddress = new Uri(Configuration["ApiUrl"])});
             services.AddSingleton<TeamService>();
             services.AddBootstrapBlazor();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,7 +60,9 @@ namespace TeamFrontEndByBlazorServer
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            baseUrl = Configuration["ApiUrl"];
+            Console.WriteLine(Configuration["ApiUrl"]);
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();

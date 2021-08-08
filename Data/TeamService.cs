@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using static System.Net.Http.HttpClient;
@@ -13,9 +14,10 @@ namespace TeamFrontEndByBlazorServer.Data
 {
     public class TeamService
     {
-        HttpClient http = new HttpClient{BaseAddress = new Uri("http://localhost:31905")};//{BaseAddress = new Uri("http://47.94.89.77:31905")};
+        HttpClient http = new HttpClient{BaseAddress = new Uri(Startup.baseUrl)};//{BaseAddress = new Uri("http://47.94.89.77:31905")};
         public async Task<List<Team>> GetTeamsAsync()
         {
+            
              
             var result =await http.GetAsync("team/getOK");
             if (result.IsSuccessStatusCode)
