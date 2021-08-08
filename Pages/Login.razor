@@ -1,0 +1,130 @@
+﻿
+@page "/Login"
+@using TeamFrontEndByBlazorServer.Data
+@using System.Threading
+@using System.Text.Json
+@using System.Text
+@using System.Net.Http.Json
+@using System.Text.Json.Nodes
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using Newtonsoft.Json.Linq
+@inject HttpClient http
+@inject ProtectedLocalStorage _localStorage
+
+<div>
+@if(true){
+    <EditForm Model="@_regUser">
+        
+            <div>
+            
+            <h3>注册</h3>
+            @str
+            <div>
+                @RegRes
+                <text>账号</text>
+                <InputText @bind-Value="_regUser.UserName"/>
+            </div>
+            <div>
+                <text>密码</text>
+                <InputText @bind-Value="_regUser.password"/>
+            </div>
+            <div>
+                <text>邮箱</text>
+                <InputText @bind-Value="_regUser.email"/>
+            </div>
+            <button @onclick="RegisterF">注册</button>
+            </div>
+        
+    </EditForm>
+    <EditForm Model="@_logUser">
+        <div>
+            <h3>登录</h3>
+            @token
+                <div>
+                    <text>账号</text>
+                    <InputText @bind-Value="_logUser.UserName"/>
+                </div>
+                <div>
+                    <text>密码</text>
+                    <InputText @bind-Value="@_logUser.password"/>
+                </div>
+        
+            <button @onclick="LoginF">登录</button>
+            <Button Color="Color.Primary" @onclick="test">主要按钮</Button>
+            <Button Color="Color.Secondary" @onclick="test2">主要按钮</Button>
+            @str2
+            </div>
+    </EditForm>
+    }
+</div>
+
+
+@code {
+    private RegUser _regUser = new RegUser();
+    private LogUser _logUser = new LogUser();
+    private string RegRes, token, str, str2;
+
+    [Parameter]
+    public bool isLogin { get; set; }
+
+    private async Task RegisterF()
+    {
+        var regUserJson = new StringContent(JsonSerializer.Serialize(_regUser), Encoding.UTF8,"application/json");
+        var httpResponse =await http.PostAsync("auth/register", regUserJson); //http.PostAsync("auth/register", regUserJson);
+        RegRes = await httpResponse.Content.ReadAsStringAsync();
+    //httpResponse.EnsureSuccessStatusCode();
+
+    }
+    
+    private async Task LoginF()
+    {
+        var logUserJson = new StringContent(JsonSerializer.Serialize(_logUser), Encoding.UTF8, "application/json");
+        var httpResponse = await http.PostAsync("auth/token2", logUserJson);
+        if (httpResponse.IsSuccessStatusCode)
+        {
+            token = await httpResponse.Content.ReadAsStringAsync();
+        
+            JObject obj = JObject.Parse(token);
+            token = obj["token"].ToString();
+            await _localStorage.SetAsync("toke", token);
+            
+            //str = _localStorage.GetAsync<string>("toke").Result.Success.ToString();
+            
+        }
+    
+    }
+
+    private async Task test()
+    {
+        
+        var result = await _localStorage.GetAsync<string>("toke");
+        isLogin = result.Success ? true : false;
+        str = result.Value;
+
+
+    }
+
+    private async Task test2()
+    {
+        http.DefaultRequestHeaders.Remove("Authorization");
+        http.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+        var httpResponse = await http.GetAsync("user/name");
+        if (httpResponse!=null)
+        {
+            str2 = await httpResponse.Content.ReadAsStringAsync();
+        }
+        
+    }
+    protected override void OnInitialized()
+    {
+        
+        
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        test();
+    }
+
+}

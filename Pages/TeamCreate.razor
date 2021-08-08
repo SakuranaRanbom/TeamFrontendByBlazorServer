@@ -1,0 +1,119 @@
+﻿@page "/TeamCreate"
+@using TeamFrontEndByBlazorServer.Data
+@using Newtonsoft.Json
+@using System.Text
+@using Newtonsoft.Json.Linq
+@using JsonSerializer = System.Text.Json.JsonSerializer
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using Microsoft.Extensions.Localization
+@using Console = System.Console
+@using System.ComponentModel
+@inject ProtectedLocalStorage _localStorage;
+@inject HttpClient http;
+@inject IStringLocalizer<TeamCreate> Localizer
+@inject TeamService TeamService;
+@if (sTeam == null)
+{
+    <p><em>正在加载中哦...</em></p>
+}
+else
+{
+    if (sTeam == false)
+    {
+        <h3>创建组织</h3>
+        <div>
+            <div>
+                <span>组织名称</span>
+            </div>
+            <BootstrapInput placeholder="@PlaceHolderText" @bind-Value="@_team.teamName"></BootstrapInput>
+        </div>
+        <div>
+            <div>
+                <span>QQ群</span>
+            </div>
+            <BootstrapInput placeholder="@PlaceHolderText" @bind-Value="@_team.teamQQ"></BootstrapInput>
+        </div>
+        <div>
+            <div>
+                <span>介绍</span>
+            </div>
+            <Textarea placeholder="@PlaceHolderText" @bind-Value="@_team.teamInfo"></Textarea>
+            <Button @onclick="Submit">提交</Button>
+        </div>
+
+        @CallBack
+    }
+    else
+    {
+        <p><em>已经有组织...</em></p>
+        <Button @onclick="FRemove">删除组织！</Button>
+    }
+}
+
+@code {
+    public SubmitTeam _team = new SubmitTeam();
+    public string? PlaceHolderText { get; set; }
+    public string CallBack { get; set; }
+    public bool? sTeam { get; set; } = null;
+    public string? t_token { get; set; }
+    public async Task Submit()
+    {
+        Console.WriteLine(_team.teamName);
+        if (_team != null)
+        {
+            var result = await _localStorage.GetAsync<string>("toke");
+            var token = result.Value;
+            http.DefaultRequestHeaders.Remove("Authorization");
+            http.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+            var subTeamJson = new StringContent(JsonSerializer.Serialize(_team),Encoding.UTF8, "application/json");
+            var httpResponse = await http.PostAsync("team/add", subTeamJson);
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                CallBack = httpResponse.Content.ToString();
+
+    //str = _localStorage.GetAsync<string>("toke").Result.Success.ToString();
+
+            }
+            Console.WriteLine(CallBack);
+            
+            CallBack = httpResponse.Content.ToString();
+        }
+    }
+
+    public async Task FRemove()
+    {
+        http.DefaultRequestHeaders.Remove("Authorization");
+        http.DefaultRequestHeaders.Add("Authorization", $"Bearer {t_token}");
+        var httpResponse = await http.GetAsync("team/remove");
+        if (httpResponse.IsSuccessStatusCode)
+        {
+            
+        }
+        else
+        {
+            
+        }
+    }
+    public async Task GetToken()
+    {
+        var result = await _localStorage.GetAsync<string>("toke");
+        //Console.WriteLine(result.Value);
+        t_token = result.Value;
+    }
+    protected override void OnInitialized()
+    {
+        
+        base.OnInitialized();
+        PlaceHolderText = Localizer["PlaceHolder"];
+         
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetToken();
+        
+        //Console.WriteLine(t_token);
+        sTeam = await TeamService.HasTeam(t_token);
+    }
+
+}

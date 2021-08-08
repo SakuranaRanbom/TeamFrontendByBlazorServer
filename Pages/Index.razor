@@ -1,0 +1,52 @@
+﻿@page "/"
+@using Console = System.Console
+@inject ProtectedLocalStorage _localStorage
+<div id="wrap">
+    <h1>简要介绍</h1>
+    <br><br><br>
+    <div id="form-wrap">
+        <form>
+            <p>首先欢迎大家来到西科。</p>
+            <label for="email">你的信息:</label>
+            <textarea name="message" id="messgae">你的邮箱</textarea>
+            <p>最好的祝愿，</p>
+            <label for="name">名字:</label>
+            <input type="text" name="name" value="你的名字">
+            <button @onclick="test">ooo</button>
+            <div>@str</div>
+        </form>
+
+    </div>
+    
+</div>
+
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+@code
+{
+    public string str { get; set; }
+    public bool s_login { get; set; }
+    private async Task test()
+    {
+    // ReSharper disable once HeapView.BoxingAllocation
+        
+        var result = await _localStorage.GetAsync<string>("toke");
+        str = result.Success ? result.Value : "none";
+        Console.WriteLine(str);
+        if (str != null)
+        {
+            s_login = true;
+        }
+        else
+        {
+            s_login = false;
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        test();
+    }
+}

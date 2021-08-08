@@ -1,0 +1,94 @@
+﻿@using System.Net
+@using Console = System.Console
+@inject HttpClient http;
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">小工具</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> 首页
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="fetchdata">
+                <span class="oi oi-plus" aria-hidden="true"></span> 组织介绍
+            </NavLink>
+        </li>
+        
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="login">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> 注册/登陆
+                </NavLink>
+            </li>
+        
+        <li>
+            <NavLink class="nav-link" href="TeamCreate">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> 组织录入
+            </NavLink>
+        </li>
+        @if (_isAdmin)
+        {
+            <li>
+                <NavLink class="nav-link" href="Admin">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> 超级管理
+                </NavLink>
+            </li>
+        }
+    </ul>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+    private bool _isAdmin = false;
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    protected override void OnInitialized()
+    {
+        
+        base.OnInitialized();
+        isAdmin();
+    }
+
+    
+
+    private async Task<string> isAdmin()
+    {
+
+        var httpResponse = await http.GetAsync("auth/admin");
+        var tmp = httpResponse.Content.ReadAsStringAsync().Result.Equals(true) ? true : false;
+       
+        _isAdmin = tmp;
+        return httpResponse.Content.ReadAsStringAsync().Result;
+    //httpResponse.EnsureSuccessStatusCode();
+
+    }
+    public string str { get; set; }
+    public bool s_login { get; set; }
+    private async Task test()
+    {
+    // ReSharper disable once HeapView.BoxingAllocation
+        
+        var result = await _localStorage.GetAsync<string>("toke");
+        str = result.Success ? result.Value : "none";
+        Console.WriteLine(str);
+        if (str != null)
+        {
+            s_login = true;
+        }
+        else
+        {
+            s_login = false;
+        }
+    }
+}

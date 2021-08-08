@@ -1,0 +1,45 @@
+﻿@page "/fetchdata"
+
+@using TeamFrontEndByBlazorServer.Data
+
+@inject TeamService TeamService
+
+<h1>组织广场</h1>
+
+<p>在这里你可以看到各种各样的组织、部门、实验室</p>
+
+
+
+@if (teams == null)
+{
+    <p><em>正在加载中哦...</em></p>
+}
+else
+{
+    <Row ItemsPerRow="ItemsPerRow.Three">
+     @foreach (var team in teams)
+     {
+         <di>
+             <Card Color="Color.Primary" IsCenter="true">
+                 <CardHeader>
+                     @team.teamName
+                 </CardHeader>
+                 <CardBody>
+                     <h5 class="card-title">QQ群:@team.teamQQ</h5>
+                     <p class="card-text">@team.teamInfo</p>
+                 </CardBody>
+             </Card>
+         </di>
+     }
+    </Row>
+    
+}
+
+@code {
+    private List<Team> teams;
+
+    protected override async Task OnInitializedAsync()
+    {
+        teams = await TeamService.GetTeamsAsync();
+    }
+}
