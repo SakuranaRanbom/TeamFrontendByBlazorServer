@@ -1,0 +1,64 @@
+﻿@page "/Coding"
+@using System.Diagnostics.CodeAnalysis
+@using Microsoft.Extensions.Localization
+@using Newtonsoft.Json.Linq
+@using RestSharp
+@using Console = System.Console
+<h3>在线代码运行</h3>
+<Select Items="Items" @bind-Value="LanguageID"></Select>
+<Textarea @bind-value="Code"></Textarea>
+<Button @onclick="RunCoding">运行</Button>
+<Textarea @bind-value="Result" readonly></Textarea>
+@code {
+    string LanguageID { get; set; } = "4";
+    string Code { get; set; }
+    string Result { get; set; }
+    private IEnumerable<SelectedItem> Items { get; set; } = new[]
+    {
+        new SelectedItem ("4", "NodeJs"),
+        new SelectedItem ("6", "Go"),
+        new SelectedItem ("7", "C语言"),
+        new SelectedItem ("7", "C++"),
+        new SelectedItem ("8", "Java1.7"),
+        new SelectedItem ("23", "Java1.8"),
+        new SelectedItem ("20", "Python3"),
+        new SelectedItem ("28", "R语言"),
+        new SelectedItem ("10", "C#"),
+    };
+    [Inject]
+    [NotNull]
+    private IStringLocalizer<Coding>? Localizer { get; set; }
+
+    public async Task RunCoding()
+    {
+        /*System.Console.WriteLine(LanguageID + Code);
+        Result = "正在执行中，请稍等";*/
+        var client = new RestClient("https://runcode-api2-ng.dooccn.com/compile2");
+        client.Timeout = -1;
+        var request = new RestRequest(Method.POST);
+        request.AddHeader("Referer", "https://www.dooccn.com/");
+        request.AddHeader("Cookie", "CacheRemark=default");
+        request.AlwaysMultipartFormData = true;
+        request.AddParameter("language", LanguageID);
+        request.AddParameter("code", Convert.ToBase64String(System.Text.Encoding.Default.GetBytes(Code)));
+        request.AddParameter("stdin", "123%0Ahaha2%0A");
+        IRestResponse response = client.Execute(request);
+        
+        JObject obj = JObject.Parse(response.Content);
+        if (obj["output"] != null && obj["output"].ToString() != "")
+        {
+            Result = obj["output"].ToString();
+        }
+        else
+        {
+            
+            Result = obj["errors"].ToString();
+        }
+    }
+
+    public async Task Run()
+    {
+        Result = "正在执行，请稍后";
+        await RunCoding();
+    }
+}

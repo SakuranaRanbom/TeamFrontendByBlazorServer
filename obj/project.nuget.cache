@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "sLOuSsaYUkFGJ/Q4QH8M1/TI7QPEYaHqMezZ7AdgwZmpw6R9yy9u7V5v5DVRGwX/S4KCqNjZT4CFZOz8l3FyUw==",
+  "dgSpecHash": "HhXDju4rrl/AuA456+D9lYhhriw1uXc+w7Xs/DeTyAW42wfqj8CV6I9sK49jbX992QkkVvT/o3oYKQeaZzyPAw==",
   "success": true,
   "projectFilePath": "F:\\.netProject\\TeamFrontEndByBlazorServer\\TeamFrontEndByBlazorServer.csproj",
   "expectedPackageFiles": [
@@ -30,6 +30,7 @@
     "C:\\Users\\cmcho\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
     "C:\\Users\\cmcho\\.nuget\\packages\\microsoft.jsinterop\\5.0.0\\microsoft.jsinterop.5.0.0.nupkg.sha512",
     "C:\\Users\\cmcho\\.nuget\\packages\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512",
+    "C:\\Users\\cmcho\\.nuget\\packages\\restsharp\\106.12.0\\restsharp.106.12.0.nupkg.sha512",
     "C:\\Users\\cmcho\\.nuget\\packages\\system.io.pipelines\\5.0.0\\system.io.pipelines.5.0.0.nupkg.sha512"
   ],
   "logs": []

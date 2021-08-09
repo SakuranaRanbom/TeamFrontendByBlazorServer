@@ -18,16 +18,16 @@ build_property._RazorSourceGeneratorHeapDumps =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[f:/.netProject/TeamFrontEndByBlazorServer/Pages/Coding.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29kaW5nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [f:/.netProject/TeamFrontEndByBlazorServer/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [f:/.netProject/TeamFrontEndByBlazorServer/Pages/FetchData.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[f:/.netProject/TeamFrontEndByBlazorServer/Pages/Login.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [f:/.netProject/TeamFrontEndByBlazorServer/Pages/SuperAdmin.razor]
@@ -53,6 +53,10 @@ build_metadata.AdditionalFiles.CssScope =
 [f:/.netProject/TeamFrontEndByBlazorServer/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-c1hkcv0ruf
+
+[f:/.netProject/TeamFrontEndByBlazorServer/Pages/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-bygltcebci
 
 [f:/.netProject/TeamFrontEndByBlazorServer/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
