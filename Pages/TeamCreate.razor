@@ -70,7 +70,7 @@ else
             if (httpResponse.IsSuccessStatusCode)
             {
                 CallBack = httpResponse.Content.ToString();
-                
+                sTeam = await TeamService.HasTeam(t_token);
     //str = _localStorage.GetAsync<string>("toke").Result.Success.ToString();
 
             }

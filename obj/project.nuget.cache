@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "yq+Zg4RYdO+Vr1LyABi7v98DG3PNbUhsXMDkDoFX/SII0xJ+4p0dvGIgq4zNJ1wBDGsm+zxR/Tb8rgyWPDWFLw==",
+  "dgSpecHash": "sLOuSsaYUkFGJ/Q4QH8M1/TI7QPEYaHqMezZ7AdgwZmpw6R9yy9u7V5v5DVRGwX/S4KCqNjZT4CFZOz8l3FyUw==",
   "success": true,
   "projectFilePath": "F:\\.netProject\\TeamFrontEndByBlazorServer\\TeamFrontEndByBlazorServer.csproj",
   "expectedPackageFiles": [
@@ -30,10 +30,7 @@
     "C:\\Users\\cmcho\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
     "C:\\Users\\cmcho\\.nuget\\packages\\microsoft.jsinterop\\5.0.0\\microsoft.jsinterop.5.0.0.nupkg.sha512",
     "C:\\Users\\cmcho\\.nuget\\packages\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512",
-    "C:\\Users\\cmcho\\.nuget\\packages\\system.io.pipelines\\5.0.0\\system.io.pipelines.5.0.0.nupkg.sha512",
-    "C:\\Users\\cmcho\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-x64\\6.0.0-preview.5.21301.5\\microsoft.netcore.app.runtime.linux-x64.6.0.0-preview.5.21301.5.nupkg.sha512",
-    "C:\\Users\\cmcho\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\6.0.0-preview.5.21301.5\\microsoft.netcore.app.host.linux-x64.6.0.0-preview.5.21301.5.nupkg.sha512",
-    "C:\\Users\\cmcho\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-x64\\6.0.0-preview.5.21301.17\\microsoft.aspnetcore.app.runtime.linux-x64.6.0.0-preview.5.21301.17.nupkg.sha512"
+    "C:\\Users\\cmcho\\.nuget\\packages\\system.io.pipelines\\5.0.0\\system.io.pipelines.5.0.0.nupkg.sha512"
   ],
   "logs": []
 }
