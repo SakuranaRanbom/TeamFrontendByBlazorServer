@@ -32,7 +32,24 @@ namespace TeamFrontEndByBlazorServer.Data
                 return null;
             }
         }
-
+        public async Task<List<Team>> GetAllTeamsAsync(string token)
+        {
+            
+            http.DefaultRequestHeaders.Remove("Authorization");
+            http.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+            var result =await http.GetAsync("team/all");
+            if (result.IsSuccessStatusCode)
+            {
+                var str = await result.Content.ReadAsStringAsync();
+                //JObject obj = JObject.Parse(str);
+                var v = JsonConvert.DeserializeObject<List<Team>>(str);
+                return v;
+            }
+            else
+            {
+                return null;
+            }
+        }
         public async Task<bool?> HasTeam(string token)
         {
             
@@ -48,6 +65,21 @@ namespace TeamFrontEndByBlazorServer.Data
             else
             {
                 return null;
+            }
+        }
+
+        public async Task<bool> SwitchStatus(string teamName)
+        {
+            
+            
+            var result = await http.GetAsync($"team/switch?teamName={teamName}");
+            if (result.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

@@ -1,0 +1,76 @@
+﻿@page "/superadmin"
+@using TeamFrontEndByBlazorServer.Data
+@using System.Runtime.CompilerServices
+@using Console = System.Console
+
+@inject TeamService TeamService
+
+<h1>团队管理</h1>
+
+<p>请在这里审核之后上架符合要求的组织（或者隐藏不符合要求的）</p>
+
+<Button @onclick="Refresh   ">刷新</Button>
+
+@if (teams == null)
+{
+    <p><em>正在加载中哦...</em></p>
+}
+else
+{
+    <Row ItemsPerRow="ItemsPerRow.Three">
+     @foreach (var team in teams)
+     {
+         <di>
+             <Card Color="Color.Primary" IsCenter="true">
+                 <CardHeader>
+                     @team.teamName
+                 </CardHeader>
+                 <CardBody>
+                     <h5 class="card-title">QQ群:@team.teamQQ</h5>
+                     <p class="card-text">@team.teamInfo</p>
+                 </CardBody>
+                 <CardFooter><Switch Value="@Convert.ToBoolean(team.status)" ValueChanged="@(e =>SwitchStatus(e,team.teamName))"></Switch></CardFooter>
+             </Card>
+         </di>
+     }
+    </Row>
+    
+}
+
+@code {
+    private List<Team> teams;
+    string? t_token { get; set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await GetToken();
+        teams = await TeamService.GetAllTeamsAsync(t_token);
+        
+    }
+
+    public async Task SwitchStatus(bool e,string teamName)
+    {
+        
+        await TeamService.SwitchStatus(teamName);
+        await Refresh();
+    }
+
+    public async Task Refresh()
+    {
+        teams = await TeamService.GetAllTeamsAsync(t_token);
+    }
+    private void test(int teamID)
+    {
+        Console.WriteLine(teamID);
+    }
+    
+    private async Task GetToken()
+    {
+        var result = await _localStorage.GetAsync<string>("toke");
+        Console.WriteLine(result.Value);
+        if (result.Success)
+        {
+            t_token = result.Value;
+        }
+    }
+}

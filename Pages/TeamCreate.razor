@@ -14,7 +14,7 @@
 @inject TeamService TeamService;
 @if (sTeam == null)
 {
-    <p><em>正在加载中哦...</em></p>
+    <p><em>还没有登录   或者   正在加载中哦...</em></p>
 }
 else
 {
@@ -70,7 +70,7 @@ else
             if (httpResponse.IsSuccessStatusCode)
             {
                 CallBack = httpResponse.Content.ToString();
-
+                
     //str = _localStorage.GetAsync<string>("toke").Result.Success.ToString();
 
             }

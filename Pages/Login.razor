@@ -8,11 +8,12 @@
 @using System.Text.Json.Nodes
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using Newtonsoft.Json.Linq
+@using Console = System.Console
 @inject HttpClient http
 @inject ProtectedLocalStorage _localStorage
 
 <div>
-@if(true){
+@if(!isLogin){
     <EditForm Model="@_regUser">
         
             <div>
@@ -20,18 +21,22 @@
             <h3>注册</h3>
             @str
             <div>
-                @RegRes
+                @ResErr
                 <text>账号</text>
                 <InputText @bind-Value="_regUser.UserName"/>
+                
             </div>
             <div>
                 <text>密码</text>
                 <InputText @bind-Value="_regUser.password"/>
+                <span>@PasswordRegError</span>
             </div>
             <div>
                 <text>邮箱</text>
                 <InputText @bind-Value="_regUser.email"/>
+                <span>@EmailRegError</span>
             </div>
+            <span>@UserRegError</span>
             <button @onclick="RegisterF">注册</button>
             </div>
         
@@ -50,28 +55,54 @@
                 </div>
         
             <button @onclick="LoginF">登录</button>
-            <Button Color="Color.Primary" @onclick="test">主要按钮</Button>
+            @*<Button Color="Color.Primary" @onclick="test">主要按钮</Button>
             <Button Color="Color.Secondary" @onclick="test2">主要按钮</Button>
-            @str2
+            @str2*@
             </div>
     </EditForm>
     }
+else
+{
+    
+    <Button Color="Color.Danger" @onclick="logout">注销</Button>
+}
 </div>
 
 
 @code {
     private RegUser _regUser = new RegUser();
     private LogUser _logUser = new LogUser();
-    private string RegRes, token, str, str2;
+    
+    private string RegRes, token, str, str2, ResErr, LogErr;
 
-    [Parameter]
+    private string EmailRegError, UserRegError, PasswordRegError;
+    
     public bool isLogin { get; set; }
 
     private async Task RegisterF()
     {
         var regUserJson = new StringContent(JsonSerializer.Serialize(_regUser), Encoding.UTF8,"application/json");
         var httpResponse =await http.PostAsync("auth/register", regUserJson); //http.PostAsync("auth/register", regUserJson);
-        RegRes = await httpResponse.Content.ReadAsStringAsync();
+        
+        if (httpResponse.IsSuccessStatusCode)
+        {
+            RegRes = "注册成功";
+        }
+        else
+        {
+            
+            var RegCallback =await httpResponse.Content.ReadAsStringAsync();
+            JObject obj = JObject.Parse(RegCallback);
+            if (obj["Error"] != null)
+            {
+                UserRegError = obj["Error"].ToString();
+            } else if (obj["errors"] != null)
+            {
+                if(obj["errors"]["Email"] != null)EmailRegError = obj["errors"]["Email"].ToString();
+                if(obj["errors"]["Password"] != null)PasswordRegError = obj["errors"]["Password"].ToString();
+            }
+            
+        }
     //httpResponse.EnsureSuccessStatusCode();
 
     }
@@ -87,9 +118,9 @@
             JObject obj = JObject.Parse(token);
             token = obj["token"].ToString();
             await _localStorage.SetAsync("toke", token);
-            
-            //str = _localStorage.GetAsync<string>("toke").Result.Success.ToString();
-            
+            await test2();
+    //str = _localStorage.GetAsync<string>("toke").Result.Success.ToString();
+
         }
     
     }
@@ -109,9 +140,17 @@
         http.DefaultRequestHeaders.Remove("Authorization");
         http.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
         var httpResponse = await http.GetAsync("user/name");
-        if (httpResponse!=null)
+        //Console.WriteLine($"{token}");
+        if (httpResponse.IsSuccessStatusCode)
         {
+            //Console.WriteLine("test2-ok");
             str2 = await httpResponse.Content.ReadAsStringAsync();
+            isLogin = true;
+        }
+        else
+        {
+            isLogin = false;
+    //Console.WriteLine(httpResponse.StatusCode);
         }
         
     }
@@ -121,10 +160,29 @@
         
     }
 
-    protected override void OnParametersSet()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnParametersSet();
-        test();
+        await GetToken();
+        await test2();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        //await test2();
+    }
+
+    public async Task GetToken()
+    {
+        var result = await _localStorage.GetAsync<string>("toke");
+    //Console.WriteLine(result.Value);
+        token = result.Value;
+    }
+
+    public async Task logout()
+    {
+       await _localStorage.SetAsync("toke", "");
+        token = "";
+       await test2();
     }
 
 }
