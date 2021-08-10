@@ -327,6 +327,7 @@ F:\.netProject\TeamFrontEndByBlazorServer\bin\release\net6.0\linux-x64\publish\l
 F:\.netProject\TeamFrontEndByBlazorServer\bin\release\net6.0\linux-x64\publish\libmscordbi.so
 F:\.netProject\TeamFrontEndByBlazorServer\bin\release\net6.0\linux-x64\publish\BootstrapBlazor.dll
 F:\.netProject\TeamFrontEndByBlazorServer\bin\release\net6.0\linux-x64\publish\Newtonsoft.Json.dll
+F:\.netProject\TeamFrontEndByBlazorServer\bin\release\net6.0\linux-x64\publish\RestSharp.dll
 F:\.netProject\TeamFrontEndByBlazorServer\bin\release\net6.0\linux-x64\publish\wwwroot\TeamFrontEndByBlazorServer.styles.css
 F:\.netProject\TeamFrontEndByBlazorServer\bin\release\net6.0\linux-x64\publish\wwwroot\_content\BootstrapBlazor\css\bootstrap.blazor.bundle.min.css
 F:\.netProject\TeamFrontEndByBlazorServer\bin\release\net6.0\linux-x64\publish\wwwroot\_content\BootstrapBlazor\js\bootstrap.blazor.bundle.min.js

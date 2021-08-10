@@ -14,37 +14,44 @@
 
 <div>
 @if(!isLogin){
-    <EditForm Model="@_regUser">
+    @if (HasNoAccount)
+    {
+        <EditForm Model="@_regUser">
         
             <div id="reg">
             
-            <h3>注册</h3>
-            @str
-            <div>
-                @ResErr
-                <text>账号</text>
-                <InputText @bind-Value="_regUser.UserName"/>
+                <h3>注册</h3>
+                @str
+                <div>
+                    @ResErr
+                    <text>账号</text>
+                    <InputText @bind-Value="_regUser.UserName"/>
                 
-            </div>
-            <div>
-                <text>密码</text>
-                <InputText @bind-Value="_regUser.password"/>
-                <span>@PasswordRegError</span>
-            </div>
-            <div>
-                <text>邮箱</text>
-                <InputText @bind-Value="_regUser.email"/>
-                <span>@EmailRegError</span>
-            </div>
-            <span>@UserRegError</span>
-            <button @onclick="RegisterF">注册</button>
+                </div>
+                <div>
+                    <text>密码</text>
+                    <InputText @bind-Value="_regUser.password"/>
+                    <span>@PasswordRegError</span>
+                </div>
+                <div>
+                    <text>邮箱</text>
+                    <InputText @bind-Value="_regUser.email"/>
+                    <span>@EmailRegError</span>
+                </div>
+                <span>@UserRegError</span>
+                <button @onclick="RegisterF">注册</button>
+                <span></span>
+                      已有账号？点击<Button @onclick="ChangeAccountStatus">登录</Button>
             </div>
         
-    </EditForm>
-    <EditForm Model="@_logUser">
-        <div>
-            <h3>登录</h3>
-            @token
+        </EditForm>
+    }
+    else
+    {
+        <EditForm Model="@_logUser">
+            <div>
+                <h3>登录</h3>
+                @token
                 <div>
                     <text>账号</text>
                     <InputText @bind-Value="_logUser.UserName"/>
@@ -54,12 +61,17 @@
                     <InputText @bind-Value="@_logUser.password"/>
                 </div>
         
-            <button @onclick="LoginF">登录</button>
-            @*<Button Color="Color.Primary" @onclick="test">主要按钮</Button>
+                <button @onclick="LoginF">登录</button>
+                <span></span>
+                    没有账号？点击<Button @onclick="ChangeAccountStatus">注册</Button>
+                @*<Button Color="Color.Primary" @onclick="test">主要按钮</Button>
             <Button Color="Color.Secondary" @onclick="test2">主要按钮</Button>
             @str2*@
             </div>
-    </EditForm>
+        </EditForm>
+    }
+    
+    
     }
 else
 {
@@ -78,6 +90,8 @@ else
     private string EmailRegError, UserRegError, PasswordRegError;
     
     public bool isLogin { get; set; }
+
+    public bool HasNoAccount { get; set; }
 
     private async Task RegisterF()
     {
@@ -185,4 +199,8 @@ else
        await test2();
     }
 
+    public async Task ChangeAccountStatus()
+    {
+        HasNoAccount = !HasNoAccount;
+    }
 }

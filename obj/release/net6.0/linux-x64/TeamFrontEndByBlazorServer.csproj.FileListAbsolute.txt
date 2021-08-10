@@ -334,3 +334,5 @@ F:\.netProject\TeamFrontEndByBlazorServer\obj\release\net6.0\linux-x64\TeamFront
 F:\.netProject\TeamFrontEndByBlazorServer\obj\release\net6.0\linux-x64\ref\TeamFrontEndByBlazorServer.dll
 F:\.netProject\TeamFrontEndByBlazorServer\obj\release\net6.0\linux-x64\TeamFrontEndByBlazorServer.pdb
 F:\.netProject\TeamFrontEndByBlazorServer\obj\release\net6.0\linux-x64\TeamFrontEndByBlazorServer.genruntimeconfig.cache
+F:\.netProject\TeamFrontEndByBlazorServer\bin\release\net6.0\linux-x64\RestSharp.dll
+F:\.netProject\TeamFrontEndByBlazorServer\obj\release\net6.0\linux-x64\scopedcss\Pages\Login.razor.rz.scp.css

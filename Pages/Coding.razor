@@ -6,9 +6,17 @@
 @using Console = System.Console
 <h3>在线代码运行</h3>
 <Select Items="Items" @bind-Value="LanguageID"></Select>
-<Textarea @bind-value="Code"></Textarea>
-<Button @onclick="RunCoding">运行</Button>
-<Textarea @bind-value="Result" readonly></Textarea>
+
+<Button @onclick="RunCoding">运行</Button>点击后请稍等一下
+
+<Split>
+            <FirstPaneTemplate>
+                <Textarea @bind-value="Code" rows="20"></Textarea>
+            </FirstPaneTemplate>
+            <SecondPaneTemplate>
+                <Textarea @bind-value="Result" rows="20" readonly></Textarea>
+            </SecondPaneTemplate>
+        </Split>
 @code {
     string LanguageID { get; set; } = "4";
     string Code { get; set; }
@@ -33,27 +41,35 @@
     {
         /*System.Console.WriteLine(LanguageID + Code);
         Result = "正在执行中，请稍等";*/
-        var client = new RestClient("https://runcode-api2-ng.dooccn.com/compile2");
-        client.Timeout = -1;
-        var request = new RestRequest(Method.POST);
-        request.AddHeader("Referer", "https://www.dooccn.com/");
-        request.AddHeader("Cookie", "CacheRemark=default");
-        request.AlwaysMultipartFormData = true;
-        request.AddParameter("language", LanguageID);
-        request.AddParameter("code", Convert.ToBase64String(System.Text.Encoding.Default.GetBytes(Code)));
-        request.AddParameter("stdin", "123%0Ahaha2%0A");
-        IRestResponse response = client.Execute(request);
-        
-        JObject obj = JObject.Parse(response.Content);
-        if (obj["output"] != null && obj["output"].ToString() != "")
+        if (Code == "" || Code == null)
         {
-            Result = obj["output"].ToString();
+            Result = "内容不能为空";
         }
         else
         {
+            var client = new RestClient("https://runcode-api2-ng.dooccn.com/compile2");
+            client.Timeout = -1;
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Referer", "https://www.dooccn.com/");
+            request.AddHeader("Cookie", "CacheRemark=default");
+            request.AlwaysMultipartFormData = true;
+            request.AddParameter("language", LanguageID);
+            request.AddParameter("code", Convert.ToBase64String(System.Text.Encoding.Default.GetBytes(Code)));
+            request.AddParameter("stdin", "123%0Ahaha2%0A");
+            IRestResponse response = client.Execute(request);
+        
+            JObject obj = JObject.Parse(response.Content);
+            if (obj["output"] != null && obj["output"].ToString() != "")
+            {
+                Result = obj["output"].ToString();
+            }
+            else
+            {
             
-            Result = obj["errors"].ToString();
+                Result = obj["errors"].ToString();
+            }
         }
+        
     }
 
     public async Task Run()
