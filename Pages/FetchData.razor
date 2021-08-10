@@ -1,6 +1,9 @@
 ﻿@page "/fetchdata"
 
 @using TeamFrontEndByBlazorServer.Data
+@using System.Diagnostics.CodeAnalysis
+@using Microsoft.Extensions.Localization
+@using Console = System.Console
 
 @inject TeamService TeamService
 
@@ -16,6 +19,10 @@
 }
 else
 {
+    <Select Items="Items" @bind-Value="SearchOptions"></Select>
+    <Search IgnoreCase="true" OnSearch="@OnSearch1"></Search>
+    
+    
     <Row ItemsPerRow="ItemsPerRow.Three">
      @foreach (var team in teams)
      {
@@ -37,9 +44,40 @@ else
 
 @code {
     private List<Team> teams;
-
+    private string SearchOptions { get; set; } = "false";
     protected override async Task OnInitializedAsync()
     {
         teams = await TeamService.GetTeamsAsync();
+    }
+    
+    private IEnumerable<SelectedItem> Items { get; set; } = new[]
+    {
+        new SelectedItem ("true", "按名字查询"),
+        new SelectedItem ("false", "按介绍查询"),
+    };
+    [Inject]
+    [NotNull]
+    private IStringLocalizer<Coding>? Localizer { get; set; }
+
+    private async Task OnSearch1(string searchText)
+    {
+        if (searchText == "")
+        {
+            
+                
+            teams = await TeamService.GetTeamsAsync();
+            StateHasChanged();
+        }
+        else if (bool.Parse(SearchOptions))
+        {
+            
+            teams = await TeamService.GetTeamsByNameAsync(searchText);
+            StateHasChanged();
+        }
+        else
+        {
+            teams = await TeamService.GetTeamsByInfoAsync(searchText);
+            StateHasChanged();
+        }
     }
 }

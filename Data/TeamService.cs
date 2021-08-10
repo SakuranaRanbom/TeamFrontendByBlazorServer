@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using static System.Net.Http.HttpClient;
@@ -20,6 +22,40 @@ namespace TeamFrontEndByBlazorServer.Data
             
              
             var result =await http.GetAsync("team/getOK");
+            if (result.IsSuccessStatusCode)
+            {
+                var str = await result.Content.ReadAsStringAsync();
+                //JObject obj = JObject.Parse(str);
+                var v = JsonConvert.DeserializeObject<List<Team>>(str);
+                return v;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public async Task<List<Team>> GetTeamsByNameAsync(string name)
+        {
+
+            
+            var result =await http.GetAsync($"team/name?name={name}");
+            if (result.IsSuccessStatusCode)
+            {
+                var str = await result.Content.ReadAsStringAsync();
+                //JObject obj = JObject.Parse(str);
+                var v = JsonConvert.DeserializeObject<List<Team>>(str);
+                return v;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public async Task<List<Team>> GetTeamsByInfoAsync(string info)
+        {
+
+            
+            var result =await http.GetAsync($"team/info?info={info}");
             if (result.IsSuccessStatusCode)
             {
                 var str = await result.Content.ReadAsStringAsync();

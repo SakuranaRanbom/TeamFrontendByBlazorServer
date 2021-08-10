@@ -21,6 +21,7 @@ else
     if (sTeam == false)
     {
         <h3>创建组织</h3>
+        <div>注意：提交完成后需要审核才能上架，请不要写一些违法相关法律规定的内容或者虚假宣传！</div>
         <div>
             <div>
                 <span>组织名称</span>
@@ -61,6 +62,7 @@ else
         Console.WriteLine(_team.teamName);
         if (_team != null)
         {
+            
             var result = await _localStorage.GetAsync<string>("toke");
             var token = result.Value;
             http.DefaultRequestHeaders.Remove("Authorization");
