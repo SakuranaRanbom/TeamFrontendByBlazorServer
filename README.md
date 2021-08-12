@@ -24,13 +24,13 @@ Build with `dotnet publish -c release/debug -r [RID]`
 
 0.Using 
 
-[Kestrel]: https://github.com/aspnet/KestrelHttpServer
+[Kestrel]: https://github.com/aspnet/KestrelHttpServer	"Kestrel"
 
 as the web server
 
 1.Using 
 
-[Blazor]: https://github.com/dotnet/blazor
+[Blazor]: https://github.com/dotnet/blazor	"Blazor"
 
 
 
