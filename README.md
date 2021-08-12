@@ -1,6 +1,6 @@
 # TeamFrontendByBlazorServer
 
-A frontend using Blazor Server Microsoft to use the <a href="[SakuranaRanbom/AssociationAPI (github.com)](https://github.com/SakuranaRanbom/AssociationAPI#)">AssociationAPI<br>
+A frontend using Blazor Server Microsoft to use the <a href="https://github.com/SakuranaRanbom/AssociationAPI#">AssociationAPI<br>
 
 <a href="https://github.com/SakuranaRanbom/TeamFrontendByBlazorServer/actions">![status](https://github.com/SakuranaRanbom/TeamFrontendByBlazorServer/actions/workflows/main.yml/badge.svg)</a>
 
@@ -22,15 +22,11 @@ Build with `dotnet publish -c release/debug -r [RID]`
 
 ## Features
 
-0.Using 
-
-[Kestrel]: https://github.com/aspnet/KestrelHttpServer	"Kestrel"
+0.Using <a href="https://github.com/aspnet/KestrelHttpServer">Kestrel<br>
 
 as the web server
 
-1.Using 
-
-[Blazor]: https://github.com/dotnet/blazor	"Blazor"
+1.Using <a href="https://github.com/dotnet/blazor">Blazor<br>
 
 
 
