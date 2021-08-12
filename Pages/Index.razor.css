@@ -63,3 +63,18 @@ h1{
 form{
     
 }*/
+
+#backgroud {
+    color: red;
+    font-size: small;
+}
+
+#result {
+    color: blue;
+    font-size: large;
+}
+
+.note {
+    color: gray;
+    font-size: xx-small ;
+}

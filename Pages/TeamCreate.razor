@@ -14,7 +14,7 @@
 @inject TeamService TeamService;
 @if (sTeam == null)
 {
-    <p><em>还没有登录   或者   正在加载中哦...</em></p>
+    <p><em>还没有登录(请前往“账号“页面进行注册）   或者   正在加载中哦...</em></p>
 }
 else
 {
@@ -22,6 +22,7 @@ else
     {
         <h3>创建组织</h3>
         <div>注意：提交完成后需要审核才能上架，请不要写一些违法相关法律规定的内容或者虚假宣传！</div>
+        <div id="info">由于"介绍"部分会被搜索，建议把贵组织的各种特点都写进去，比如“校级”“部门”“舞台”“竞赛”“机器人”等类似的标签</div>
         <div>
             <div>
                 <span>组织名称</span>
@@ -46,7 +47,9 @@ else
     }
     else
     {
-        <p><em>已经有组织...</em></p>
+        <p><em>已经有组织...如果“组织广场”页面没有的话就是在审核中，请稍等。</em></p>
+
+        <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=136242004&site=qq&menu=yes">如果需要加速审核请联系</a>
         <Button @onclick="FRemove">删除组织！</Button>
     }
 }
@@ -73,6 +76,7 @@ else
             {
                 CallBack = httpResponse.Content.ToString();
                 sTeam = await TeamService.HasTeam(t_token);
+                StateHasChanged();
     //str = _localStorage.GetAsync<string>("toke").Result.Success.ToString();
 
             }
@@ -89,7 +93,7 @@ else
         var httpResponse = await http.GetAsync("team/remove");
         if (httpResponse.IsSuccessStatusCode)
         {
-            
+            StateHasChanged();
         }
         else
         {
@@ -113,9 +117,8 @@ else
     protected override async Task OnInitializedAsync()
     {
         await GetToken();
-        
-        //Console.WriteLine(t_token);
         sTeam = await TeamService.HasTeam(t_token);
+        StateHasChanged();
     }
 
 }

@@ -64,10 +64,29 @@ h1{
 form{
     
 }*/
+
+#backgroud[b-c1hkcv0ruf] {
+    color: red;
+    font-size: small;
+}
+
+#result[b-c1hkcv0ruf] {
+    color: blue;
+    font-size: large;
+}
+
+.note[b-c1hkcv0ruf] {
+    color: gray;
+    font-size: xx-small ;
+}
 /* _content/TeamFrontEndByBlazorServer/Pages/Login.razor.rz.scp.css */
 
 #reg[b-bygltcebci]{
     
+}
+/* _content/TeamFrontEndByBlazorServer/Pages/TeamCreate.razor.rz.scp.css */
+#info[b-16dxnmld4p] {
+    color: darkslateblue;
 }
 /* _content/TeamFrontEndByBlazorServer/Shared/MainLayout.razor.rz.scp.css */
 .page[b-vq7kzftqji] {

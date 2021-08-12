@@ -129,7 +129,7 @@
         
         var result = await _localStorage.GetAsync<string>("toke");
         str = result.Success ? result.Value : "none";
-        Console.WriteLine(str);
+        /*Console.WriteLine(str);*/
         if (str != null)
         {
             s_login = true;

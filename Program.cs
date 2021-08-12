@@ -21,7 +21,10 @@ namespace TeamFrontEndByBlazorServer
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseUrls("http://*:5000");
+                    webBuilder.UseUrls("http://*:5000","https://*:443");
+                    webBuilder.UseKestrel(option => option.ConfigureHttpsDefaults(i => i.ServerCertificate =
+                        new System.Security.Cryptography.X509Certificates.X509Certificate2("./www-bdsplugins-cn-iis-0811011408.pfx",
+                            "123456")));
                 });
     }
 }
